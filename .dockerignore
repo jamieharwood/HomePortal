@@ -1,0 +1,9 @@
+# Keep local output and editor files out of the image build context.
+.git
+.gradle
+.idea
+build
+data
+out
+*.md
+*.iml

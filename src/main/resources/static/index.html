@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home Portal</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="portal.css">
+</head>
+<body>
+  <aside class="rail">
+    <header class="rail-header">
+      <p class="eyebrow">Links</p>
+      <h1>Home Portal</h1>
+      <p class="lede">Open a link beside this list. Drag a row, or use the arrows, to change the order.</p>
+      <p id="link-count" class="count" aria-live="polite">Loading…</p>
+    </header>
+    <ol id="link-list" aria-label="Portal links">
+      <li class="empty-list">Loading links…</li>
+    </ol>
+    <form id="add-form" class="composer" autocomplete="off">
+      <p id="error" class="error" role="alert" hidden></p>
+      <label class="field">
+        <span>URL</span>
+        <input id="url-input" name="url" type="text" inputmode="url" spellcheck="false" maxlength="2000" required placeholder="http://host:8080/" disabled>
+      </label>
+      <label class="field">
+        <span>Label <em>optional</em></span>
+        <input id="label-input" name="label" type="text" maxlength="80" placeholder="Shown in the list" disabled>
+      </label>
+      <button class="primary" type="submit" disabled>Add URL</button>
+    </form>
+    <noscript>
+      <p class="noscript">JavaScript is required to load, add, remove, and reorder links.</p>
+    </noscript>
+  </aside>
+
+  <main class="stage">
+    <header class="stage-bar">
+      <div class="stage-heading">
+        <h2 id="current-label">No link selected</h2>
+        <p id="current-url">Choose a link from the list. The list stays on screen.</p>
+      </div>
+      <div class="stage-actions">
+        <button id="reload-frame" type="button" hidden>Reload</button>
+        <a id="open-link" hidden target="_blank" rel="noopener noreferrer">Open in new tab</a>
+      </div>
+    </header>
+    <div class="stage-body">
+      <section id="empty-stage">
+        <div class="empty-copy">
+          <p class="eyebrow">Waiting</p>
+          <h2>Links open here</h2>
+          <p>The list stays visible while a page is open, and while you add, remove, or reorder links.</p>
+        </div>
+      </section>
+      <iframe id="viewport" hidden title="Selected link"></iframe>
+    </div>
+  </main>
+  <script src="portal.js"></script>
+</body>
+</html>

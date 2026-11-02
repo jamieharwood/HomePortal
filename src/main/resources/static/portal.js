@@ -136,8 +136,8 @@ function syncStage() {
     delete frame.dataset.url;
     empty.hidden = false;
     label.textContent = "No link selected";
+    url.hidden = false;
     url.textContent = "Choose a link from the list. The list stays on screen.";
-    url.removeAttribute("title");
     open.hidden = true;
     open.removeAttribute("href");
     reloadButton.hidden = true;
@@ -147,14 +147,15 @@ function syncStage() {
 
   empty.hidden = true;
   frame.hidden = false;
+  frame.style.colorScheme = "light dark";
   if (frame.dataset.url !== link.url) {
     frame.dataset.url = link.url;
     frame.src = link.url;
   }
   frame.title = link.label;
   label.textContent = link.label;
-  url.textContent = link.url;
-  url.title = link.url;
+  url.hidden = true;
+  url.textContent = "";
   open.href = link.url;
   open.hidden = false;
   reloadButton.hidden = false;
@@ -209,7 +210,7 @@ function renderRow(link, index) {
     input.maxLength = 80;
     input.required = true;
     input.value = link.label;
-    input.setAttribute("aria-label", "Label for " + link.url);
+    input.setAttribute("aria-label", "Label");
     input.autocomplete = "off";
     const save = document.createElement("button");
     save.type = "submit";
@@ -230,10 +231,7 @@ function renderRow(link, index) {
   const label = document.createElement("span");
   label.className = "label";
   label.textContent = link.label;
-  const url = document.createElement("span");
-  url.className = "url";
-  url.textContent = link.url;
-  select.append(label, url);
+  select.append(label);
   row.append(select);
 
   const actions = document.createElement("div");
@@ -599,6 +597,12 @@ document.querySelector("#reload-frame").addEventListener("click", () => {
   if (frame.dataset.url && isHttpUrl(frame.dataset.url)) {
     frame.src = frame.dataset.url;
   }
+});
+
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+  const frame = document.querySelector("#viewport");
+  if (!frame.dataset.url) return;
+  frame.src = frame.dataset.url;
 });
 
 async function start() {

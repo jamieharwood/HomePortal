@@ -118,7 +118,7 @@ h1 {
 .link {
   position: relative;
   display: grid;
-  grid-template-columns: 28px minmax(0, 1fr);
+  grid-template-columns: 14px minmax(0, 1fr);
   gap: 2px 8px;
   align-items: center;
   margin-bottom: 6px;
@@ -150,7 +150,7 @@ h1 {
 
 .handle {
   grid-row: 1 / span 2;
-  width: 28px;
+  width: 14px;
   height: 36px;
   padding: 0;
   border: 0;
@@ -182,17 +182,8 @@ h1 {
 .label {
   max-width: 100%;
   overflow: hidden;
+  font-size: 18px;
   font-weight: 600;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.url {
-  max-width: 100%;
-  overflow: hidden;
-  color: var(--sidebar-muted);
-  font-family: var(--mono);
-  font-size: 11px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -217,12 +208,25 @@ h1 {
   height: 28px;
   padding: 0;
   background: transparent;
-  color: var(--sidebar-text);
+  color: var(--sidebar-muted);
 }
 
 .icon-button svg { width: 15px; height: 15px; }
 
-.icon-button:hover, .handle:hover, .text-button:hover {
+@media (hover: hover) {
+  .icon-button:not(:disabled) {
+    opacity: 0.4;
+  }
+
+  .icon-button:not(:disabled):hover,
+  .icon-button:not(:disabled):focus-visible {
+    opacity: 1;
+    color: var(--sidebar-text);
+    background: rgba(246, 241, 231, 0.18);
+  }
+}
+
+.handle:hover, .text-button:hover {
   background: rgba(246, 241, 231, 0.08);
 }
 
@@ -306,7 +310,24 @@ h1 {
   min-width: 0;
   min-height: 0;
   background: var(--paper);
-  color-scheme: light;
+  color-scheme: light dark;
+  --bar: #f7f4ec;
+  --bar-text: var(--text);
+  --bar-muted: var(--muted);
+  --bar-line: var(--line);
+  --bar-button: #fff;
+  --bar-button-hover: var(--paper-deep);
+}
+
+@media (prefers-color-scheme: dark) {
+  .stage {
+    --bar: #1c1915;
+    --bar-text: #f6f1e7;
+    --bar-muted: #b7ae9f;
+    --bar-line: #3a342c;
+    --bar-button: #2a261f;
+    --bar-button-hover: #3a342c;
+  }
 }
 
 .stage-bar {
@@ -315,23 +336,25 @@ h1 {
   gap: 8px 16px;
   align-items: center;
   padding: 12px 18px;
-  border-bottom: 1px solid var(--line);
-  background: #f7f4ec;
+  border-bottom: 1px solid var(--bar-line);
+  background: var(--bar);
+  color: var(--bar-text);
 }
 
 .stage-heading { min-width: 0; }
 
 #current-label {
   overflow: hidden;
-  font-size: 18px;
-  letter-spacing: -0.03em;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.04em;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 #current-url {
   overflow: hidden;
-  color: var(--muted);
+  color: var(--bar-muted);
   font-family: var(--mono);
   font-size: 12px;
   text-overflow: ellipsis;
@@ -347,14 +370,14 @@ h1 {
 
 .stage-actions button, .stage-actions a {
   padding: 7px 12px;
-  background: white;
-  color: var(--text);
+  background: var(--bar-button);
+  color: var(--bar-text);
   font-size: 13px;
   text-decoration: none;
-  border-color: var(--line);
+  border-color: var(--bar-line);
 }
 
-.stage-actions button:hover, .stage-actions a:hover { background: var(--paper-deep); }
+.stage-actions button:hover, .stage-actions a:hover { background: var(--bar-button-hover); }
 
 .stage-body {
   position: relative;
@@ -362,6 +385,11 @@ h1 {
   background:
     linear-gradient(180deg, rgba(28, 25, 21, 0.03), transparent 80px),
     var(--paper);
+}
+
+#viewport {
+  /* The light stage would otherwise be inherited and lock framed pages to light mode. */
+  color-scheme: light dark;
 }
 
 #viewport:not([hidden]) {
@@ -411,7 +439,7 @@ h1 {
 
   .rail-header { padding: 12px 14px 6px; }
 
-  h1 { font-size: 22px; }
+  h1, #current-label { font-size: 22px; }
 
   .count { margin-top: 6px; }
 
